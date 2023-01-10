@@ -1,0 +1,16 @@
+.messages {
+    display: grid;
+    grid-template-columns: 2fr 10fr;
+}
+
+.messagesUsers {
+    padding: 10px;
+}
+
+.active {
+    color: gold;
+}
+
+.messagesDialogues {
+    padding: 10px;
+}
