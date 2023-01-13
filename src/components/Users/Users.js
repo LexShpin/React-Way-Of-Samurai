@@ -1,6 +1,8 @@
 import s from "./Users.module.css";
 import baseAvatar from "../../assets/images/baseAvatar.jpg";
 import React from "react";
+import {NavLink} from "react-router-dom";
+import {followAPI} from "../../api/api";
 
 const Users = (props) => {
 
@@ -18,33 +20,52 @@ const Users = (props) => {
         <div>
             <div>
                 {pages.map(p => {
-                    return <span onClick={() => props.onChangePage(p)} className={props.currentPage === p && s.selectedPage}>{p} </span>
+                    return <span onClick={ () => props.onChangePage(p) } className={props.currentPage === p && s.selectedPage}>{p} </span>
                 })}
             </div>
             {props.users.map((user) => (
                 <div key={user.id}>
                 <span>
                 <div>
-                    <img
-                        src={
-                            user.photos.small !== null ? user.photos.small : baseAvatar
-                        }
-                        className={s.userPhoto}
-                    />
+                    <NavLink to={`/profile/${user.id}`}>
+                        <img
+                            src={
+                                user.photos.small !== null ? user.photos.small : baseAvatar
+                            }
+                            className={s.userPhoto}
+                        />
+                    </NavLink>
                 </div>
                 <div>
                     {user.followed ? (
                         <button
+                            disabled={props.following.some(id => id === user.id)}
                             onClick={() => {
-                                props.unfollow(user.id);
+                                props.toggleFollowing(true, user.id)
+                                followAPI.unfollow(user.id)
+                                    .then(data => {
+                                        if (data.resultCode === 0) {
+                                            props.unfollow(user.id)
+                                        }
+                                        props.toggleFollowing(false, user.id)
+                                    })
+
                             }}
                         >
                             Unfollow
                         </button>
                     ) : (
                         <button
+                            disabled={props.following.some(id => id === user.id)}
                             onClick={() => {
-                                props.follow(user.id);
+                                props.toggleFollowing(true, user.id)
+                                followAPI.follow(user.id)
+                                    .then(data => {
+                                        if (data.resultCode === 0) {
+                                            props.follow(user.id)
+                                        }
+                                        props.toggleFollowing(false, user.id)
+                                    })
                             }}
                         >
                             Follow
@@ -52,14 +73,10 @@ const Users = (props) => {
                     )}
                 </div>
                 </span>
-                    <span>
+                <span>
                 <span>
                     <div>{user.name}</div>
                     <div>{user.status}</div>
-                </span>
-                <span>
-                    <div>{"user.location.country"}</div>
-                    <div>{"user.location.city"}</div>
                 </span>
                 </span>
                 </div>

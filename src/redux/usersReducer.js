@@ -5,12 +5,16 @@ const UNFOLLOW = 'UNFOLLOW'
 const SET_USERS = 'SET-USERS'
 const SET_CURRENT_PAGE = 'SET-CURRENT-PAGE'
 const SET_TOTAL_USERS_COUNT = 'SET-TOTAL-USERS-COUNT'
+const TOGGLE_IS_FETCHING = 'TOGGLE-IS-FETCHING'
+const TOGGLE_FOLLOWING = 'TOGGLE-FOLLOWING'
 
 let initialState = {
     users: [],
     pageSize: 100,
     totalUsersCount: 0,
-    currentPage: 1
+    currentPage: 1,
+    isFetching: false,
+    following: []
 }
 
 const usersReducer = (state = initialState, action) => {
@@ -53,19 +57,37 @@ const usersReducer = (state = initialState, action) => {
                 totalUsersCount: action.totalCount
             }
 
+        case TOGGLE_IS_FETCHING:
+                return {
+                    ...state,
+                    isFetching: action.isFetching
+                }
+
+        case TOGGLE_FOLLOWING:
+            return {
+                ...state,
+                following: action.isFollowing
+                    ? [...state.following, action.userId]
+                    : state.following.filter(id => id !== action.userId)
+            }
+
         default:
             return state
     }
 }
 
-export const followAC = (userId) => ({type: FOLLOW, userId})
+export const follow = (userId) => ({type: FOLLOW, userId})
 
-export const unfollowAC = (userId) => ({type: UNFOLLOW, userId})
+export const unfollow = (userId) => ({type: UNFOLLOW, userId})
 
-export const setUsersAC = (users) => ({type: SET_USERS, users})
+export const setUsers = (users) => ({type: SET_USERS, users})
 
-export const setCurrentPageAC = (currentPage) => ({type: SET_CURRENT_PAGE, currentPage})
+export const setCurrentPage = (currentPage) => ({type: SET_CURRENT_PAGE, currentPage})
 
-export const setTotalUsersCountAC = (totalCount) => ({type: SET_TOTAL_USERS_COUNT, totalCount})
+export const setTotalUsersCount = (totalCount) => ({type: SET_TOTAL_USERS_COUNT, totalCount})
+
+export const toggleIsFetching = (isFetching) => ({type: TOGGLE_IS_FETCHING, isFetching})
+
+export const toggleFollowing = (isFollowing, userId) => ({type: TOGGLE_FOLLOWING, isFollowing, userId})
 
 export default usersReducer
