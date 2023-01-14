@@ -5,6 +5,7 @@ import Navbar from "./components/Navbar/Navbar"
 import UsersContainer from "./components/Users/UsersContainer"
 import ProfileContainer from "./components/Profile/ProfileContainer";
 import HeaderContainer from "./components/Header/HeaderContainer";
+import Login from "./components/Login/Login";
 
 const App = () => {
 
@@ -18,6 +19,7 @@ const App = () => {
             <Route path="/profile/:userId?" element={<ProfileContainer />} />
             <Route path="/messages/*" element={<MessagesContainer />} />
             <Route path='/users' element={<UsersContainer />} />
+            <Route path='/login' element={<Login />} />
             {/* <Route path="/news" element={<Messages />} />
             <Route path="/music" element={<Messages />} />
             <Route path="/settings" element={<Messages />} /> */}

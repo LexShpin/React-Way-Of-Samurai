@@ -1,5 +1,5 @@
 import React from 'react'
-import { NavLink } from 'react-router-dom'
+import {Navigate, NavLink} from 'react-router-dom'
 import { sendMessageActionCreator, updateNewMessageBodyActionCreator } from '../../redux/messagesReducer'
 import Dialogue from './Dialogue/Dialogue'
 import s from './Messages.module.css'
@@ -7,7 +7,9 @@ import MessagesUser from './MessagesUser/MessagesUser'
 
 const Messages = (props) => { 
 
-    console.log(props);
+    if (!props.isAuth) {
+        return <Navigate to="/login" />
+    }
 
     const sendMessageTextArea = React.createRef()
 

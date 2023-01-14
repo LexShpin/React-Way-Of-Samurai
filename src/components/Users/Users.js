@@ -41,14 +41,8 @@ const Users = (props) => {
                         <button
                             disabled={props.following.some(id => id === user.id)}
                             onClick={() => {
-                                props.toggleFollowing(true, user.id)
-                                followAPI.unfollow(user.id)
-                                    .then(data => {
-                                        if (data.resultCode === 0) {
-                                            props.unfollow(user.id)
-                                        }
-                                        props.toggleFollowing(false, user.id)
-                                    })
+
+                                props.unfollowUser(user.id)
 
                             }}
                         >
@@ -58,14 +52,9 @@ const Users = (props) => {
                         <button
                             disabled={props.following.some(id => id === user.id)}
                             onClick={() => {
-                                props.toggleFollowing(true, user.id)
-                                followAPI.follow(user.id)
-                                    .then(data => {
-                                        if (data.resultCode === 0) {
-                                            props.follow(user.id)
-                                        }
-                                        props.toggleFollowing(false, user.id)
-                                    })
+
+                                props.followUser(user.id)
+
                             }}
                         >
                             Follow

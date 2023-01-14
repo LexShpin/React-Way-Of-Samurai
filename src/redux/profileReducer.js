@@ -1,6 +1,8 @@
+import {profileAPI} from "../api/api";
+
 const ADD_POST = 'ADD-POST'
 const UPDATE_NEW_POST_TEXT = 'UPDATE-NEW-POST-TEXT'
-const SET_CURRENT_USER = 'SET-CURRENT-USER'
+const LOAD_USER = 'LOAD-USER'
 
 const initialState = {
     currentUser: null,
@@ -25,7 +27,7 @@ const profileReducer = (state = initialState, action) => {
                 ...state,
                 newPostText: action.newText
             }
-        case SET_CURRENT_USER:
+        case LOAD_USER:
             return {
                 ...state,
                 currentUser: action.currentUser
@@ -45,6 +47,15 @@ export const updateNewPostTextActionCreator = (text) => {
     }
 }
 
-export const setCurrentUser = (user) => ({type: SET_CURRENT_USER, currentUser: user})
+export const loadUser = (user) => ({type: LOAD_USER, currentUser: user})
+
+export const loadUserProfile = (userId) => (dispatch) => {
+
+    profileAPI.loadUserProfile(userId)
+        .then(data => {
+            dispatch(loadUser(data))
+        })
+
+}
 
 export default profileReducer
